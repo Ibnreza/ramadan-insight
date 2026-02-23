@@ -37,7 +37,7 @@ function loadState(): AppState {
     }
   } catch {}
   return {
-    location: DEFAULT_LOCATIONS[0],
+    location: DEFAULT_LOCATIONS[1],
     language: "en",
     fastingLog: [],
     tasbihHistory: [],

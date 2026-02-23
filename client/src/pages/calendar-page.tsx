@@ -38,10 +38,10 @@ export default function CalendarPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="rounded-2xl border border-white/5 overflow-hidden"
-          style={{ background: "rgba(15, 21, 40, 0.6)" }}
+          style={{ background: "rgba(10, 15, 30, 0.4)" }}
         >
-          <div className="grid grid-cols-4 px-4 py-3 border-b border-white/5">
-            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider">
+          <div className="grid grid-cols-4 px-4 py-3 border-b border-white/5 bg-white/[0.02]">
+            <span className="text-xs font-semibold text-white/30 uppercase tracking-wider">
               {language === "bn" ? "দিন" : "Day"}
             </span>
             <span className="text-xs font-semibold text-white/40 uppercase tracking-wider text-center">

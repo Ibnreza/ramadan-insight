@@ -12,6 +12,7 @@ interface LocationModalProps {
 export function LocationModal({ open, onClose }: LocationModalProps) {
   const { setLocation, language } = useAppContext();
   const [search, setSearch] = useState("");
+  const [loadingLocation, setLoadingLocation] = useState(false);
 
   const filtered = DEFAULT_LOCATIONS.filter((loc) =>
     loc.name.toLowerCase().includes(search.toLowerCase())
@@ -20,6 +21,32 @@ export function LocationModal({ open, onClose }: LocationModalProps) {
   const handleSelect = (loc: LocationData) => {
     setLocation(loc);
     onClose();
+  };
+
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setLoadingLocation(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({
+          name: "Current Location",
+          latitude,
+          longitude,
+        });
+        setLoadingLocation(false);
+        onClose();
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+        alert("Unable to retrieve your location");
+        setLoadingLocation(false);
+      }
+    );
   };
 
   return (
@@ -54,6 +81,18 @@ export function LocationModal({ open, onClose }: LocationModalProps) {
                   <X className="w-4 h-4 text-white/70" />
                 </button>
               </div>
+
+              <button
+                onClick={handleUseCurrentLocation}
+                disabled={loadingLocation}
+                className="w-full flex items-center justify-center gap-2 mb-4 py-3 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 font-semibold transition-colors hover:bg-teal-500/20 disabled:opacity-50"
+                data-testid="button-use-current-location"
+              >
+                <MapPin className="w-4 h-4" />
+                {loadingLocation
+                  ? (language === "bn" ? "লোকেশন লোড হচ্ছে..." : "Loading location...")
+                  : (language === "bn" ? "বর্তমান লোকেশন ব্যবহার করুন" : "Use Current Location")}
+              </button>
 
               <div className="relative mb-4">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
