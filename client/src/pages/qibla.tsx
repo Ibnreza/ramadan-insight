@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Navigation, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAppContext } from "@/lib/app-context";
 import { LocationHeader } from "@/components/location-header";
@@ -60,7 +60,6 @@ export default function QiblaPage() {
   }, []);
 
   const compassRotation = heading !== null ? -heading : 0;
-  const qiblaRotation = heading !== null ? qiblaDirection - heading : qiblaDirection;
 
   const cardinalDirections = [
     { label: "N", angle: 0 },
@@ -77,7 +76,8 @@ export default function QiblaPage() {
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl font-bold text-white mb-2"
+          className="text-2xl font-bold mb-2"
+          style={{ color: "#F0EBE0" }}
           data-testid="text-qibla-title"
         >
           {language === "bn" ? "কিবলা কম্পাস" : "Qibla Compass"}
@@ -86,7 +86,8 @@ export default function QiblaPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="text-sm text-white/40 mb-8"
+          className="text-sm mb-8"
+          style={{ color: "#4A6070" }}
           data-testid="text-qibla-direction"
         >
           {language === "bn"
@@ -102,9 +103,10 @@ export default function QiblaPage() {
         >
           <div className="relative w-72 h-72">
             <div
-              className="absolute inset-0 rounded-full border-2 border-white/10"
+              className="absolute inset-0 rounded-full"
               style={{
-                background: "radial-gradient(circle, rgba(15, 21, 40, 0.9) 0%, rgba(10, 15, 30, 1) 100%)",
+                background: "radial-gradient(circle, rgba(19,34,54,0.9) 0%, rgba(10,22,40,1) 100%)",
+                border: "2px solid rgba(200,168,90,0.15)",
                 transform: `rotate(${compassRotation}deg)`,
                 transition: heading !== null ? "transform 0.3s ease-out" : "none",
               }}
@@ -121,10 +123,11 @@ export default function QiblaPage() {
                   }}
                 >
                   <span
-                    className={`text-sm font-bold block -translate-x-1/2 -translate-y-1/2 ${
-                      dir.label === "N" ? "text-teal-400" : "text-white/40"
-                    }`}
-                    style={{ transform: `rotate(${-compassRotation - dir.angle}deg) translate(-50%, -50%)` }}
+                    className="text-sm font-bold block -translate-x-1/2 -translate-y-1/2"
+                    style={{
+                      color: dir.label === "N" ? "#C8A85A" : "#4A6278",
+                      transform: `rotate(${-compassRotation - dir.angle}deg) translate(-50%, -50%)`,
+                    }}
                   >
                     {dir.label}
                   </span>
@@ -141,9 +144,11 @@ export default function QiblaPage() {
                   }}
                 >
                   <div
-                    className={`w-px mx-auto ${
-                      i % 18 === 0 ? "h-3 bg-teal-400/60" : i % 6 === 0 ? "h-2 bg-white/20" : "h-1 bg-white/10"
-                    }`}
+                    className="w-px mx-auto"
+                    style={{
+                      height: i % 18 === 0 ? "12px" : i % 6 === 0 ? "8px" : "4px",
+                      background: i % 18 === 0 ? "rgba(200,168,90,0.55)" : i % 6 === 0 ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)",
+                    }}
                   />
                 </div>
               ))}
@@ -158,15 +163,18 @@ export default function QiblaPage() {
             >
               <div className="absolute" style={{ top: "8px" }}>
                 <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 rounded-full bg-teal-500 teal-glow" />
-                  <div className="w-0.5 h-10 bg-gradient-to-b from-teal-500 to-transparent" />
+                  <div className="w-3 h-3 rounded-full" style={{ background: "#C8A85A", boxShadow: "0 0 10px rgba(200,168,90,0.6)" }} />
+                  <div className="w-0.5 h-10" style={{ background: "linear-gradient(to bottom, #C8A85A, transparent)" }} />
                 </div>
               </div>
             </div>
 
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 rounded-full bg-navy-200 border border-white/10 flex items-center justify-center">
-                <p className="text-xs text-center text-teal-400 font-arabic font-bold leading-tight">
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center"
+                style={{ background: "#132236", border: "1px solid rgba(200,168,90,0.20)" }}
+              >
+                <p className="text-xs text-center font-arabic font-bold leading-tight text-gold-400">
                   الكعبة
                 </p>
               </div>
@@ -178,7 +186,8 @@ export default function QiblaPage() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-8 p-4 rounded-xl border border-gold-500/20 bg-gold-500/5"
+            className="mt-8 p-4 rounded-xl"
+            style={{ background: "rgba(200,168,90,0.06)", border: "1px solid rgba(200,168,90,0.18)" }}
           >
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5" />
@@ -186,7 +195,7 @@ export default function QiblaPage() {
                 <p className="text-sm font-medium text-gold-400 mb-1">
                   {language === "bn" ? "কম্পাস অনুপলব্ধ" : "Compass Unavailable"}
                 </p>
-                <p className="text-xs text-white/50">
+                <p className="text-xs" style={{ color: "#8A9DB5" }}>
                   {language === "bn"
                     ? "আপনার ডিভাইস কম্পাস সেন্সর সমর্থন করে না। কিবলার দিক উত্তর থেকে " + Math.round(qiblaDirection) + "°।"
                     : `Your device doesn't support the compass sensor. The Qibla direction is ${Math.round(qiblaDirection)}° from North.`}
@@ -202,7 +211,7 @@ export default function QiblaPage() {
           transition={{ delay: 0.3 }}
           className="mt-6 text-center"
         >
-          <p className="text-xs text-white/30">
+          <p className="text-xs" style={{ color: "#4A6070" }}>
             {language === "bn"
               ? "ফোনটি সমতলে রাখুন এবং কিবলার দিকে ঘুরুন"
               : "Hold your phone flat and rotate to face the Qibla"}

@@ -15,21 +15,22 @@ export function LocationHeader() {
           className="flex items-center gap-2"
           data-testid="button-change-location"
         >
-          <div className="w-8 h-8 rounded-full bg-teal-500/15 flex items-center justify-center">
-            <MapPin className="w-4 h-4 text-teal-400" />
+          <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(200,168,90,0.12)" }}>
+            <MapPin className="w-4 h-4 text-gold-500" />
           </div>
           <div className="text-left">
-            <p className="text-[10px] uppercase tracking-widest text-white/40 font-medium">
+            <p className="text-[10px] uppercase tracking-widest font-medium" style={{ color: "#4A6070" }}>
               {language === "bn" ? "লোকেশন" : "Location"}
             </p>
-            <p className="text-sm font-semibold text-white" data-testid="text-location-name">
+            <p className="text-sm font-semibold text-[#F0EBE0]" data-testid="text-location-name">
               {location.name.split(",")[0]}
             </p>
           </div>
         </button>
         <button
           onClick={() => setLanguage(language === "en" ? "bn" : "en")}
-          className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center border border-white/10"
+          className="w-9 h-9 rounded-full flex items-center justify-center border"
+          style={{ background: "rgba(200,168,90,0.08)", borderColor: "rgba(200,168,90,0.15)" }}
           data-testid="button-toggle-language"
         >
           <Globe className="w-4 h-4 text-gold-400" />

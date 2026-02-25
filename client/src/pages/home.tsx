@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { Flame, Award, Star, ChevronRight } from "lucide-react";
+import { Flame, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAppContext } from "@/lib/app-context";
 import { LocationHeader } from "@/components/location-header";
@@ -8,7 +8,7 @@ import { getIftarTime, getSahariTime, getTimeDiff, formatPrayerTime } from "@/li
 import { getRamadanDay, isRamadan, SUHOOR_DUA, IFTAR_DUA, BADGES } from "@/lib/ramadan-data";
 
 export default function HomePage() {
-  const { location, language, getFastingStreak, fastingLog, toggleFastingDay, totalDhikr, earnedBadges } = useAppContext();
+  const { location, language, getFastingStreak, fastingLog, toggleFastingDay, totalDhikr } = useAppContext();
   const [now, setNow] = useState(new Date());
   const [showIftar, setShowIftar] = useState(true);
 
@@ -71,10 +71,10 @@ export default function HomePage() {
 
       <div className="px-5 pt-3">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="text-3xl font-bold text-white tracking-tight" data-testid="text-ramadan-title">
+          <h1 className="text-3xl font-bold tracking-tight" style={{ color: "#F0EBE0" }} data-testid="text-ramadan-title">
             {language === "bn" ? "রমজান মুবারক" : "Ramadan Mubarak"}
           </h1>
-          <p className="text-teal-400 text-sm font-medium mt-1" data-testid="text-ramadan-day">
+          <p className="text-sm font-medium mt-1 text-gold-400" data-testid="text-ramadan-day">
             {inRamadan
               ? language === "bn"
                 ? `দিন ${ramadanDay} • ${dateStr}`
@@ -91,11 +91,11 @@ export default function HomePage() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mt-5 rounded-2xl p-5 relative overflow-visible"
           style={{
-            background: "linear-gradient(135deg, #00B899 0%, #00E5C0 50%, #00B899 100%)",
+            background: "linear-gradient(135deg, #A8834A 0%, #C8A85A 50%, #A8834A 100%)",
           }}
           data-testid="card-countdown"
         >
-          <div className="absolute inset-0 rounded-2xl animate-pulse-teal opacity-50" />
+          <div className="absolute inset-0 rounded-2xl animate-pulse-gold opacity-50" />
           <p className="text-center text-xs font-semibold text-white/80 tracking-widest uppercase mb-3 relative z-10">
             {language === "bn" ? countdownLabelBn : countdownLabel}
           </p>
@@ -136,11 +136,15 @@ export default function HomePage() {
         >
           <button
             onClick={() => toggleFastingDay(todayKey)}
-            className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all ${
+            className={`flex-1 py-3 rounded-xl font-semibold text-sm transition-all border ${
               isFasting
-                ? "bg-teal-500/20 text-teal-400 border border-teal-500/30"
-                : "bg-white/5 text-white/60 border border-white/10"
+                ? "border-green-500/30"
+                : "border-white/10"
             }`}
+            style={{
+              background: isFasting ? "rgba(61,158,123,0.15)" : "rgba(255,255,255,0.04)",
+              color: isFasting ? "#4DB888" : "#8A9DB5",
+            }}
             data-testid="button-toggle-fasting"
           >
             {isFasting
@@ -151,9 +155,12 @@ export default function HomePage() {
               ? "আজকের রোজা লগ করুন"
               : "Log Today's Fast"}
           </button>
-          <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-white/5 border border-white/10">
+          <div
+            className="flex items-center gap-2 px-4 py-3 rounded-xl border border-white/10"
+            style={{ background: "rgba(255,255,255,0.04)" }}
+          >
             <Flame className="w-4 h-4 text-orange-400" />
-            <span className="text-white font-bold text-sm" data-testid="text-streak">{streak}</span>
+            <span className="font-bold text-sm" style={{ color: "#F0EBE0" }} data-testid="text-streak">{streak}</span>
           </div>
         </motion.div>
 
@@ -164,14 +171,15 @@ export default function HomePage() {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="mt-4"
           >
-            <h3 className="text-sm font-semibold text-white/60 mb-2">
+            <h3 className="text-sm font-semibold mb-2" style={{ color: "#8A9DB5" }}>
               {language === "bn" ? "ব্যাজ" : "Badges"}
             </h3>
             <div className="flex gap-2 flex-wrap">
               {unlockedBadges.map((badge) => (
                 <div
                   key={badge.id}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gold-500/10 border border-gold-500/20"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
+                  style={{ background: "rgba(200,168,90,0.12)", border: "1px solid rgba(200,168,90,0.20)" }}
                   data-testid={`badge-${badge.id}`}
                 >
                   <span className="text-sm">{badge.icon}</span>
@@ -191,24 +199,28 @@ export default function HomePage() {
           className="mt-6"
         >
           <div className="flex items-center justify-between gap-3 mb-3">
-            <h2 className="text-lg font-bold text-white" data-testid="text-dua-section-title">
+            <h2 className="text-lg font-bold" style={{ color: "#F0EBE0" }} data-testid="text-dua-section-title">
               {language === "bn" ? "দৈনিক দোয়া" : "Daily Duas"}
             </h2>
             <div className="flex gap-1">
               <button
                 onClick={() => setShowIftar(false)}
-                className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                  !showIftar ? "bg-teal-500/20 text-teal-400" : "text-white/40"
-                }`}
+                className="px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+                style={!showIftar
+                  ? { background: "rgba(200,168,90,0.15)", color: "#C8A85A" }
+                  : { color: "#4A6070" }
+                }
                 data-testid="button-dua-suhoor"
               >
                 {language === "bn" ? "সাহরি" : "Suhoor"}
               </button>
               <button
                 onClick={() => setShowIftar(true)}
-                className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                  showIftar ? "bg-teal-500/20 text-teal-400" : "text-white/40"
-                }`}
+                className="px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+                style={showIftar
+                  ? { background: "rgba(200,168,90,0.15)", color: "#C8A85A" }
+                  : { color: "#4A6070" }
+                }
                 data-testid="button-dua-iftar"
               >
                 {language === "bn" ? "ইফতার" : "Iftar"}
@@ -217,30 +229,31 @@ export default function HomePage() {
           </div>
 
           <div
-            className="rounded-2xl p-5 border border-white/5"
-            style={{ background: "rgba(15, 21, 40, 0.8)" }}
+            className="rounded-2xl p-5"
+            style={{ background: "rgba(19,34,54,0.80)", border: "1px solid rgba(200,168,90,0.12)" }}
             data-testid="card-dua"
           >
             <div className="flex items-center gap-2 mb-4">
-              <Star className="w-4 h-4 text-gold-400" />
-              <h3 className="text-sm font-semibold text-white/90">
+              <span className="text-gold-400 text-sm">✦</span>
+              <h3 className="text-sm font-semibold" style={{ color: "#F0EBE0" }}>
                 {language === "bn" ? dua.titleBn : dua.title}
               </h3>
             </div>
 
             <p
-              className="text-2xl leading-[2.2] text-teal-400 text-right font-arabic mb-4"
+              className="text-2xl leading-[2.2] text-right font-arabic mb-4"
+              style={{ color: "#E8C97A" }}
               dir="rtl"
               data-testid="text-dua-arabic"
             >
               {dua.arabic}
             </p>
 
-            <p className="text-sm text-white/50 italic mb-3" data-testid="text-dua-transliteration">
+            <p className="text-sm italic mb-3" style={{ color: "#4A6070" }} data-testid="text-dua-transliteration">
               {dua.transliteration}
             </p>
 
-            <p className="text-sm text-white/70 leading-relaxed" data-testid="text-dua-translation">
+            <p className="text-sm leading-relaxed" style={{ color: "#8A9DB5" }} data-testid="text-dua-translation">
               {language === "bn" ? dua.bengali : dua.english}
             </p>
           </div>
@@ -253,8 +266,8 @@ export default function HomePage() {
           className="mt-5 mb-4"
         >
           <div
-            className="rounded-2xl p-4 border border-white/5 flex items-center gap-4"
-            style={{ background: "rgba(15, 21, 40, 0.8)" }}
+            className="rounded-2xl p-4 flex items-center gap-4"
+            style={{ background: "rgba(19,34,54,0.80)", border: "1px solid rgba(200,168,90,0.12)" }}
           >
             <div className="relative w-14 h-14 flex-shrink-0">
               <svg viewBox="0 0 56 56" className="w-14 h-14 -rotate-90">
@@ -264,27 +277,27 @@ export default function HomePage() {
                   cy="28"
                   r="24"
                   fill="none"
-                  stroke="#00E5C0"
+                  stroke="#C8A85A"
                   strokeWidth="4"
                   strokeLinecap="round"
                   strokeDasharray={`${(ramadanDay / 30) * 150.8} 150.8`}
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xs font-bold text-teal-400">{Math.round((ramadanDay / 30) * 100)}%</span>
+                <span className="text-xs font-bold text-gold-400">{Math.round((ramadanDay / 30) * 100)}%</span>
               </div>
             </div>
             <div className="flex-1">
-              <p className="text-sm font-semibold text-white">
+              <p className="text-sm font-semibold" style={{ color: "#F0EBE0" }}>
                 {language === "bn" ? "রমজানের অগ্রগতি" : "Ramadan Progress"}
               </p>
-              <p className="text-xs text-white/40 mt-0.5">
+              <p className="text-xs mt-0.5" style={{ color: "#4A6070" }}>
                 {language === "bn"
                   ? `${ramadanDay}/৩০ দিন সম্পন্ন`
                   : `${ramadanDay}/30 days completed`}
               </p>
             </div>
-            <ChevronRight className="w-4 h-4 text-white/20" />
+            <ChevronRight className="w-4 h-4" style={{ color: "#4A6070" }} />
           </div>
         </motion.div>
       </div>

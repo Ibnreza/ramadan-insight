@@ -27,7 +27,8 @@ export default function CalendarPage() {
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl font-bold text-white mb-5"
+          className="text-2xl font-bold mb-5"
+          style={{ color: "#F0EBE0" }}
           data-testid="text-calendar-title"
         >
           {language === "bn" ? "রমজান ক্যালেন্ডার" : "Ramadan Calendar"}
@@ -37,20 +38,20 @@ export default function CalendarPage() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-2xl border border-white/5 overflow-hidden"
-          style={{ background: "rgba(10, 15, 30, 0.4)" }}
+          className="rounded-2xl overflow-hidden"
+          style={{ background: "rgba(10,22,40,0.50)", border: "1px solid rgba(200,168,90,0.10)" }}
         >
-          <div className="grid grid-cols-4 px-4 py-3 border-b border-white/5 bg-white/[0.02]">
-            <span className="text-xs font-semibold text-white/30 uppercase tracking-wider">
+          <div className="grid grid-cols-4 px-4 py-3 border-b border-white/5" style={{ background: "rgba(200,168,90,0.04)" }}>
+            <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: "#4A6070" }}>
               {language === "bn" ? "দিন" : "Day"}
             </span>
-            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider text-center">
+            <span className="text-xs font-semibold uppercase tracking-wider text-center" style={{ color: "#4A6070" }}>
               {language === "bn" ? "তারিখ" : "Date"}
             </span>
-            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider text-center">
+            <span className="text-xs font-semibold uppercase tracking-wider text-center" style={{ color: "#4A6070" }}>
               {language === "bn" ? "সাহরি" : "Sahari"}
             </span>
-            <span className="text-xs font-semibold text-white/40 uppercase tracking-wider text-right">
+            <span className="text-xs font-semibold uppercase tracking-wider text-right" style={{ color: "#4A6070" }}>
               {language === "bn" ? "ইফতার" : "Iftar"}
             </span>
           </div>
@@ -62,30 +63,34 @@ export default function CalendarPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.02 * i }}
-                className={`grid grid-cols-4 items-center px-4 py-3.5 border-b border-white/[0.03] ${
-                  day.isToday ? "bg-teal-500/10" : ""
-                }`}
+                className="grid grid-cols-4 items-center px-4 py-3.5 border-b border-white/[0.03]"
+                style={day.isToday ? { background: "rgba(200,168,90,0.08)" } : undefined}
                 data-testid={`row-calendar-day-${day.dayNum}`}
               >
                 <div className="flex items-center gap-2">
                   {day.isToday ? (
-                    <div className="w-7 h-7 rounded-full bg-teal-500 flex items-center justify-center">
-                      <span className="text-xs font-bold text-navy-300">{day.dayNum}</span>
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: "#C8A85A" }}>
+                      <span className="text-xs font-bold" style={{ color: "#0A1628" }}>{day.dayNum}</span>
                     </div>
                   ) : (
-                    <span className="text-sm text-white/50 w-7 text-center">{day.dayNum}</span>
+                    <span className="text-sm w-7 text-center" style={{ color: "#4A6070" }}>{day.dayNum}</span>
                   )}
                 </div>
-                <span className={`text-sm text-center ${day.isToday ? "text-white font-semibold" : "text-white/70"}`}>
+                <span
+                  className="text-sm text-center"
+                  style={{ color: day.isToday ? "#F0EBE0" : "#8A9DB5", fontWeight: day.isToday ? 600 : 400 }}
+                >
                   {format(day.date, "dd MMM")}
                 </span>
-                <span className={`text-sm text-center tabular-nums ${day.isToday ? "text-white" : "text-white/60"}`}>
+                <span
+                  className="text-sm text-center tabular-nums"
+                  style={{ color: day.isToday ? "#F0EBE0" : "#8A9DB5" }}
+                >
                   {formatPrayerTimeShort(day.sahari)}
                 </span>
                 <span
-                  className={`text-sm text-right tabular-nums font-semibold ${
-                    day.isToday ? "text-teal-400" : "text-teal-500/80"
-                  }`}
+                  className="text-sm text-right tabular-nums font-semibold"
+                  style={{ color: day.isToday ? "#C8A85A" : "rgba(200,168,90,0.55)" }}
                 >
                   {formatPrayerTimeShort(day.iftar)}
                 </span>

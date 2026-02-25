@@ -18,7 +18,7 @@ export function BottomNav() {
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/5"
-      style={{ background: "rgba(10, 15, 30, 0.95)", backdropFilter: "blur(20px)" }}
+      style={{ background: "rgba(10, 22, 40, 0.95)", backdropFilter: "blur(20px)" }}
       data-testid="nav-bottom"
     >
       <div className="max-w-md mx-auto flex items-center justify-around py-2 px-2">
@@ -34,18 +34,18 @@ export function BottomNav() {
                 {isActive && (
                   <motion.div
                     layoutId="nav-indicator"
-                    className="absolute -top-2 left-1/2 -translate-x-1/2 w-6 h-0.5 rounded-full bg-teal-500"
+                    className="absolute -top-2 left-1/2 -translate-x-1/2 w-6 h-0.5 rounded-full bg-gold-500"
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
                 )}
                 <Icon
                   className={`w-5 h-5 transition-colors ${
-                    isActive ? "text-teal-400" : "text-white/40"
+                    isActive ? "text-gold-500" : "text-[#4A6278]"
                   }`}
                 />
                 <span
                   className={`text-[10px] font-medium transition-colors ${
-                    isActive ? "text-teal-400" : "text-white/40"
+                    isActive ? "text-gold-500" : "text-[#4A6278]"
                   }`}
                 >
                   {language === "bn" ? item.labelBn : item.label}

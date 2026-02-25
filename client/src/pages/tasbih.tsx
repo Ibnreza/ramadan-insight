@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef } from "react";
 import { RotateCcw, ChevronDown, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
@@ -11,7 +11,6 @@ export default function TasbihPage() {
   const { language, addTasbihEntry } = useAppContext();
   const [selectedDhikr, setSelectedDhikr] = useState<DhikrPreset>(DHIKR_PRESETS[0]);
   const [count, setCount] = useState(0);
-  const [goal] = useState(() => selectedDhikr.defaultGoal);
   const [showSelector, setShowSelector] = useState(false);
   const [isTapping, setIsTapping] = useState(false);
   const [goalReached, setGoalReached] = useState(false);
@@ -40,7 +39,7 @@ export default function TasbihPage() {
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ["#00E5C0", "#FFD700", "#ffffff"],
+        colors: ["#C8A85A", "#E8C97A", "#3D9E7B", "#ffffff"],
       });
       addTasbihEntry({
         date: format(new Date(), "yyyy-MM-dd"),
@@ -88,13 +87,14 @@ export default function TasbihPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           onClick={() => setShowSelector(!showSelector)}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/10 bg-white/5 mb-4"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl mb-4"
+          style={{ background: "rgba(200,168,90,0.08)", border: "1px solid rgba(200,168,90,0.15)" }}
           data-testid="button-dhikr-selector"
         >
-          <span className="text-sm font-semibold text-white">
+          <span className="text-sm font-semibold" style={{ color: "#F0EBE0" }}>
             {language === "bn" ? selectedDhikr.nameBn : selectedDhikr.name}
           </span>
-          <ChevronDown className={`w-4 h-4 text-white/40 transition-transform ${showSelector ? "rotate-180" : ""}`} />
+          <ChevronDown className={`w-4 h-4 transition-transform text-gold-600 ${showSelector ? "rotate-180" : ""}`} />
         </motion.button>
 
         <AnimatePresence>
@@ -103,7 +103,8 @@ export default function TasbihPage() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="w-full rounded-xl border border-white/10 bg-navy-100 mb-4 overflow-hidden"
+              className="w-full rounded-xl mb-4 overflow-hidden"
+              style={{ background: "#132236", border: "1px solid rgba(200,168,90,0.12)" }}
             >
               <div className="max-h-64 overflow-y-auto">
                 {DHIKR_PRESETS.map((dhikr) => (
@@ -114,14 +115,14 @@ export default function TasbihPage() {
                     data-testid={`button-dhikr-${dhikr.id}`}
                   >
                     <div className="text-left">
-                      <p className="text-sm text-white/90 font-medium">
+                      <p className="text-sm font-medium" style={{ color: "#F0EBE0" }}>
                         {language === "bn" ? dhikr.nameBn : dhikr.name}
                       </p>
-                      <p className="text-xs text-white/40">{dhikr.arabic}</p>
+                      <p className="text-xs" style={{ color: "#4A6070" }}>{dhikr.arabic}</p>
                     </div>
                     {selectedDhikr.id === dhikr.id && (
-                      <div className="w-5 h-5 rounded-full bg-teal-500 flex items-center justify-center">
-                        <Check className="w-3 h-3 text-navy-300" />
+                      <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: "#3D9E7B" }}>
+                        <Check className="w-3 h-3 text-white" />
                       </div>
                     )}
                   </button>
@@ -135,7 +136,8 @@ export default function TasbihPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="text-2xl text-teal-400 font-arabic text-center mb-6 leading-relaxed"
+          className="text-2xl font-arabic text-center mb-6 leading-relaxed"
+          style={{ color: "#E8C97A" }}
           dir="rtl"
           data-testid="text-dhikr-arabic"
         >
@@ -162,7 +164,7 @@ export default function TasbihPage() {
               cy="125"
               r="110"
               fill="none"
-              stroke="url(#tealGradient)"
+              stroke="url(#goldGradient)"
               strokeWidth="8"
               strokeLinecap="round"
               strokeDasharray={circumference}
@@ -170,9 +172,9 @@ export default function TasbihPage() {
               className="transition-all duration-200"
             />
             <defs>
-              <linearGradient id="tealGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#00E5C0" />
-                <stop offset="100%" stopColor="#00B899" />
+              <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#E8C97A" />
+                <stop offset="100%" stopColor="#A8834A" />
               </linearGradient>
             </defs>
           </svg>
@@ -184,10 +186,10 @@ export default function TasbihPage() {
               isTapping ? "scale-[0.95]" : "scale-100"
             }`}
             style={{
-              background: "radial-gradient(circle at 40% 35%, #00E5C0, #00B899 60%, #008A73)",
+              background: "radial-gradient(circle at 40% 35%, #D4B670, #C8A85A 60%, #A8834A)",
               boxShadow: goalReached
-                ? "0 0 40px rgba(0, 229, 192, 0.5), 0 0 80px rgba(0, 229, 192, 0.2)"
-                : "0 0 20px rgba(0, 229, 192, 0.3), inset 0 -4px 10px rgba(0, 0, 0, 0.2)",
+                ? "0 0 40px rgba(200,168,90,0.5), 0 0 80px rgba(200,168,90,0.2)"
+                : "0 0 20px rgba(200,168,90,0.3), inset 0 -4px 10px rgba(0,0,0,0.2)",
             }}
             data-testid="button-tasbih-tap"
           >
@@ -201,14 +203,15 @@ export default function TasbihPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-xs text-white/30 mb-4"
+          className="text-xs mb-4"
+          style={{ color: "#4A6070" }}
           data-testid="text-tasbih-goal"
         >
           {language === "bn"
             ? `লক্ষ্য: ${currentGoal}`
             : `Goal: ${currentGoal}`}
           {goalReached && (
-            <span className="text-teal-400 ml-2 font-semibold">
+            <span className="ml-2 font-semibold" style={{ color: "#4DB888" }}>
               {language === "bn" ? "✓ সম্পন্ন!" : "✓ Complete!"}
             </span>
           )}
@@ -219,7 +222,12 @@ export default function TasbihPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25 }}
           onClick={handleReset}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white/50 text-sm font-medium"
+          className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium"
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            color: "#4A6278",
+          }}
           data-testid="button-reset-counter"
         >
           <RotateCcw className="w-4 h-4" />

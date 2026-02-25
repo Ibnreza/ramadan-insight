@@ -33,7 +33,8 @@ export default function PrayerTimesPage() {
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-2xl font-bold text-white mb-2"
+          className="text-2xl font-bold mb-2"
+          style={{ color: "#F0EBE0" }}
           data-testid="text-prayer-title"
         >
           {language === "bn" ? "নামাজের সময়" : "Prayer Times"}
@@ -44,27 +45,33 @@ export default function PrayerTimesPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-5 rounded-2xl p-4 border border-teal-500/20"
-            style={{ background: "rgba(0, 229, 192, 0.06)" }}
+            className="mb-5 rounded-2xl p-4"
+            style={{
+              background: "rgba(200,168,90,0.08)",
+              border: "1px solid rgba(200,168,90,0.20)",
+            }}
             data-testid="card-next-prayer"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-teal-500/20 flex items-center justify-center">
-                <Clock className="w-5 h-5 text-teal-400" />
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center"
+                style={{ background: "rgba(200,168,90,0.15)" }}
+              >
+                <Clock className="w-5 h-5 text-gold-400" />
               </div>
               <div className="flex-1">
-                <p className="text-xs text-teal-400/70 font-medium uppercase tracking-wider">
+                <p className="text-xs font-medium uppercase tracking-wider" style={{ color: "rgba(200,168,90,0.60)" }}>
                   {language === "bn" ? "পরবর্তী নামাজ" : "Next Prayer"}
                 </p>
-                <p className="text-lg font-bold text-white">
+                <p className="text-lg font-bold" style={{ color: "#F0EBE0" }}>
                   {language === "bn" ? prayerNamesBn[nextPrayer.name] : nextPrayer.name}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-white/40">
+                <p className="text-xs" style={{ color: "#4A6070" }}>
                   {language === "bn" ? "বাকি" : "in"}
                 </p>
-                <p className="text-lg font-bold text-teal-400 tabular-nums" data-testid="text-next-prayer-countdown">
+                <p className="text-lg font-bold tabular-nums text-gold-400" data-testid="text-next-prayer-countdown">
                   {(() => {
                     const d = getTimeDiff(nextPrayer.time, now);
                     return `${String(d.hours).padStart(2, "0")}:${String(d.minutes).padStart(2, "0")}:${String(d.seconds).padStart(2, "0")}`;
@@ -87,36 +94,33 @@ export default function PrayerTimesPage() {
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.05 * i + 0.15 }}
-                className={`flex items-center gap-4 px-4 py-4 rounded-xl border transition-all ${
-                  isNext
-                    ? "bg-teal-500/10 border-teal-500/20"
-                    : "border-white/5"
-                } ${isPast ? "opacity-50" : ""}`}
-                style={{ background: isNext ? "rgba(0, 229, 192, 0.06)" : "rgba(15, 21, 40, 0.5)" }}
+                className={`flex items-center gap-4 px-4 py-4 rounded-xl transition-all ${isPast ? "opacity-50" : ""}`}
+                style={{
+                  background: isNext ? "rgba(200,168,90,0.08)" : "rgba(19,34,54,0.60)",
+                  border: isNext ? "1px solid rgba(200,168,90,0.22)" : "1px solid rgba(255,255,255,0.04)",
+                }}
                 data-testid={`card-prayer-${prayer.name.toLowerCase()}`}
               >
                 <div
-                  className={`w-9 h-9 rounded-full flex items-center justify-center ${
-                    isNext ? "bg-teal-500/20" : "bg-white/5"
-                  }`}
+                  className="w-9 h-9 rounded-full flex items-center justify-center"
+                  style={{ background: isNext ? "rgba(200,168,90,0.15)" : "rgba(255,255,255,0.05)" }}
                 >
                   <Icon
                     className={`w-4 h-4 ${
-                      isNext ? "text-teal-400" : prayer.icon === "sun" ? "text-gold-400" : "text-white/40"
+                      isNext ? "text-gold-400" : prayer.icon === "sun" ? "text-gold-600" : ""
                     }`}
+                    style={!isNext && prayer.icon === "moon" ? { color: "#4A6278" } : undefined}
                   />
                 </div>
                 <span
-                  className={`flex-1 font-semibold ${
-                    isNext ? "text-teal-400" : "text-white/80"
-                  }`}
+                  className="flex-1 font-semibold"
+                  style={{ color: isNext ? "#C8A85A" : "#8A9DB5" }}
                 >
                   {language === "bn" ? prayerNamesBn[prayer.name] : prayer.name}
                 </span>
                 <span
-                  className={`text-base tabular-nums font-semibold ${
-                    isNext ? "text-teal-400" : "text-white/60"
-                  }`}
+                  className="text-base tabular-nums font-semibold"
+                  style={{ color: isNext ? "#C8A85A" : "#8A9DB5" }}
                   data-testid={`text-prayer-time-${prayer.name.toLowerCase()}`}
                 >
                   {formatPrayerTime(prayer.time)}
