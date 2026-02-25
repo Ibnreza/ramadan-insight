@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "functions": {
+    "api/serverless.ts": {
+      "memory": 1024
+    }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/serverless.ts" },
+    { "source": "/(.*)", "destination": "/dist/public/$1" }
+  ]
+}
